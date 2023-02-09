@@ -104,12 +104,12 @@ Connect-Graph -Scopes "Organization.Read.All", "User.ReadWrite.All", "Applicatio
 
 #View Windows 365 Available Licenses
 $skuw365 = Get-MgSubscribedSku
-$filteredSkus = $skuw365 | Where-Object {($_.SkuPartNumber -eq "CPC_E_2C_8GB_128GB​") -and ($_.ConsumedUnits -like "*")} | Select -Property Sku*, ConsumedUnits -ExpandProperty PrepaidUnits | Format-List
+$filteredSkus = $skuw365 | Where-Object {($_.SkuPartNumber -eq "CPC_E_2C_8GB_128GB​") -and ($_.ConsumedUnits -like "*")} | Select-Object -Property Sku*, ConsumedUnits -ExpandProperty PrepaidUnits | Format-List
 $filteredSkus
 
 #View Microsoft 365 Premium Available Licenses
 $skum365 = Get-MgSubscribedSku
-$filteredSkus = $skum365 | Where-Object {($_.SkuPartNumber -eq "*SPB*") -and ($_.ConsumedUnits -like "*")} | Select -Property Sku*, ConsumedUnits -ExpandProperty PrepaidUnits | Format-List
+$filteredSkus = $skum365 | Where-Object {($_.SkuPartNumber -eq "*SPB*") -and ($_.ConsumedUnits -like "*")} | Select-Object -Property Sku*, ConsumedUnits -ExpandProperty PrepaidUnits | Format-List
 $filteredSkus
 
 # **************************************************************************************************************
@@ -119,11 +119,11 @@ $filteredSkus
 # **************************************************************************************************************
 
 #Assign a Microsoft 365 Premium License
-$SPB = Get-MgSubscribedSku -All | Where SkuPartNumber -eq 'SPB'
+$SPB = Get-MgSubscribedSku -All | Where-Object SkuPartNumber -eq 'SPB'
 Set-MgUserLicense -UserId $UPN -AddLicenses @{SkuId = $SPB.SkuId} -RemoveLicenses @()
 
 #Assign a Windows365 Cloud PC License
-$W365 = Get-MgSubscribedSku -All | Where SkuPartNumber -eq 'CPC_E_2C_8GB_128GB​'
+$W365 = Get-MgSubscribedSku -All | Where-Object SkuPartNumber -eq 'CPC_E_2C_8GB_128GB​'
 Set-MgUserLicense -UserId $UPN -AddLicenses @{SkuId = $W365.SkuId} -RemoveLicenses @()
 
 Disconnect-Graph
