@@ -62,6 +62,8 @@ $SKUs = @(Get-MgUserLicenseDetail -UserId $User.id)
 foreach ($SKU in $SKUs){
 Set-MgUserLicense -UserId $User.id -AddLicenses @() -RemoveLicenses $Sku.SkuId -ErrorAction Stop}
 
+Disconnect-Graph
+
 # **************************************************************************************************************
 #
 # Step 6 -  Convert Mailbox to Shared Mailbox
